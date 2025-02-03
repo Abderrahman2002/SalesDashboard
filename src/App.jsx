@@ -1,13 +1,12 @@
-
+// src/App.jsx
 import SalesDashboard from './components/SalesDashboard';
 
-function App() {
-
+const App = () => {
   return (
-    <>
-    <SalesDashboard />
-    </>
-  )
-}
+    <div>
+      <SalesDashboard />
+    </div>
+  );
+};
 
-export default App
+export default App;
