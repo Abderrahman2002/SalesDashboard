@@ -1,27 +1,35 @@
-import React from 'react';
+// Import hooks from react-redux to interact with the Redux store
 import { useSelector, useDispatch } from 'react-redux';
+// Import actions from the sales slice
 import { setSelectedCategory, setActiveTab } from '../redux/slices/salesSlice';
+// Import components from recharts for charts
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+// Import icons from lucide-react
 import { BarChart3, ShoppingCart, Package2, Filter, ChevronDown } from 'lucide-react';
+// Import custom components
 import ProductCard from './ProductCard';
 import CustomTable from './CustomTable';
 
+// Define constants for months and colors
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
 const SalesDashboard = () => {
-  const dispatch = useDispatch();
-  const { data, selectedCategory, activeTab } = useSelector(state => state.sales);
+  const dispatch = useDispatch(); // Get the dispatch function from Redux
+  const { data, selectedCategory, activeTab } = useSelector(state => state.sales); // Get state from Redux store
 
+  // Filter data based on selected category
   const filteredData = selectedCategory === 'all' 
     ? data 
     : data.filter(product => product.categorie === selectedCategory);
 
+  // Prepare data for the pie chart
   const pieData = data.map(product => ({
     name: product.nom,
     value: product.ventes_mensuelles.reduce((sum, sales) => sum + (sales * product.prix), 0)
   }));
 
+  // Prepare data for the line chart
   const lineData = MONTHS.map((month, idx) => ({
     month,
     ...filteredData.reduce((acc, product) => ({
@@ -30,12 +38,15 @@ const SalesDashboard = () => {
     }), {})
   }));
 
+  // Get unique categories from data
   const categories = ['all', ...new Set(data.map(product => product.categorie))];
 
+  // Calculate total revenue
   const totalRevenue = data.reduce((sum, product) => 
     sum + product.ventes_mensuelles.reduce((s, sales) => s + (sales * product.prix), 0), 0
   );
   
+  // Calculate total sales
   const totalSales = data.reduce((sum, product) => 
     sum + product.ventes_mensuelles.reduce((s, sales) => s + sales, 0), 0
   );
@@ -67,7 +78,7 @@ const SalesDashboard = () => {
         <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-medium text-gray-500">Chiffre d'Affaires Total</h3>
+              <h3 className="text-sm font-medium text-gray-500">Chiffre d&apos;Affaires Total</h3>
               <p className="text-2xl font-bold text-gray-900 mt-2">{totalRevenue.toLocaleString()} MAD</p>
             </div>
             <div className="p-3 bg-blue-50 rounded-lg">
@@ -171,7 +182,7 @@ const SalesDashboard = () => {
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm">
-              <h3 className="text-lg font-semibold mb-6 text-gray-900">Répartition des Chiffres d'Affaires</h3>
+              <h3 className="text-lg font-semibold mb-6 text-gray-900">Répartition des Chiffres d&apos;Affaires</h3>
               <div className="h-[400px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>

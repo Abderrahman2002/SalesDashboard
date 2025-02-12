@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types';
+// Import icons from lucide-react
 import { TrendingUp, TrendingDown, Package, DollarSign, ShoppingCart, BarChart2 } from 'lucide-react';
 
 const ProductCard = ({ product }) => {
+  // Calculate total sales
   const totalSales = product.ventes_mensuelles.reduce((sum, sales) => sum + sales, 0);
+  // Calculate total revenue
   const totalRevenue = totalSales * product.prix;
   
+  // Calculate trend (comparing last two months)
   const lastMonth = product.ventes_mensuelles[product.ventes_mensuelles.length - 1];
   const previousMonth = product.ventes_mensuelles[product.ventes_mensuelles.length - 2];
   const trend = lastMonth > previousMonth;
@@ -71,7 +75,7 @@ const ProductCard = ({ product }) => {
         <div className="bg-blue-50 p-4 rounded-lg">
           <div className="flex items-center text-blue-600 mb-1">
             <BarChart2 className="w-4 h-4 mr-1" />
-            <span className="text-sm font-medium">Chiffre d'affaires total</span>
+            <span className="text-sm font-medium">Chiffre d&apos;affaires total</span>
           </div>
           <p className="text-xl font-bold text-blue-900">{totalRevenue.toLocaleString()} MAD</p>
         </div>
