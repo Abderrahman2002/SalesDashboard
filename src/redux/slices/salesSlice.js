@@ -15,7 +15,7 @@ const initialState = {
         "reference": "P002",
         "nom": "Smartphone",
         "prix": 8000,
-        "image": "./images/smartphone.jpg",
+        "image": "./images/smartphone1.jpg",
         "categorie": "Informatique",
         "ventes_mensuelles": [25, 30, 22, 18, 35, 40, 38, 50, 45, 55, 60, 70]
         },
